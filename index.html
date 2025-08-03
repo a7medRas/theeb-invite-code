@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>كود الدعوة - مؤسسة ذيب</title>
+  <link href="style.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+    }
+    input[type="text"] {
+      width: 80%;
+      padding: 0.8rem;
+      border: 2px solid #d1a766;
+      border-radius: 10px;
+      font-size: 1rem;
+      margin-top: 1rem;
+      text-align: center;
+      background-color: #fffdf9;
+      color: #3e2f1c;
+    }
+    button {
+      margin-top: 1rem;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      background-color: #d1a766;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #b7893e;
+    }
+    .invite-code-box {
+      margin: 1rem auto;
+      background: linear-gradient(135deg, #fdf6e3, #fff0c7);
+      border: 3px dashed #c4974e;
+      border-radius: 15px;
+      padding: 1.5rem;
+      font-size: 1.7rem;
+      font-weight: bold;
+      color: #8b5e3c;
+      box-shadow: 0 0 10px rgba(150, 120, 80, 0.1);
+    }
+    .invite-code-box button {
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      background-color: #c4974e;
+    }
+    .share-buttons {
+      margin-top: 1.2rem;
+    }
+    .share-buttons a {
+      margin: 0.3rem;
+      padding: 0.6rem 1rem;
+      background-color: #25d366;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      display: inline-block;
+      font-size: 0.95rem;
+    }
+    .info-section ul {
+      list-style: none;
+      padding-right: 0;
+    }
+    .info-section ul li::before {
+      content: "✅ ";
+    }
+    table {
+      width: 100%;
+      margin-top: 1.5rem;
+      border-collapse: collapse;
+      direction: rtl;
+    }
+    table, th, td {
+      border: 1px solid #8b5e3c;
+    }
+    th, td {
+      padding: 0.75rem;
+      text-align: center;
+      font-size: 1rem;
+    }
+    th {
+      background-color: #f7e4c4;
+      color: #3e2f1c;
+    }
+    td {
+      background-color: #fff8ef;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎟️ كود الدعوة</h1>
+    <p class="description">أدخل معرف Likee الخاص بك للحصول على كود دعوة فريد ومشاركته مع أصدقائك.</p>
+
+    <input type="text" id="likeeId" placeholder="مثال: likee123456" />
+    <br>
+    <button onclick="generateInviteCode()">عرض كود الدعوة</button>
+
+    <div id="code-section" style="display:none;">
+      <p class="code-label">كود الدعوة الخاص بك:</p>
+      <div class="invite-code-box">
+        <span id="invite-code"></span>
+        <br>
+        <button onclick="copyCode()">📋 نسخ الكود</button>
+      </div>
+      <div class="share-buttons">
+        <a id="whatsapp-share" href="#" target="_blank">📱 واتساب</a>
+        <a id="messenger-share" href="#" target="_blank">💬 ماسنجر</a>
+        <a id="likee-share" href="https://www.likee.video/" target="_blank">🔥 لايكي</a>
+      </div>
+    </div>
+
+    <hr style="margin: 2rem 0; border-color: #d1a766;">
+
+    <div class="info-section">
+      <p>📣 هذا الحدث متاح لجميع مذيعين الوكالة. يمكن لكل مذيع الحصول على كود دعوة خاصة به ودعوة أشخاص جدد والحصول على مكافآت تصل إلى <strong>1000$ شهريًا</strong>.</p>
+      <ul>
+        <li>أن يجتاز المذيع المدعو مرحلة الاوديشن</li>
+        <li>أن يحقق 31 ساعة خلال أول شهر</li>
+      </ul>
+    </div>
+
+    <table>
+      <tr>
+        <th>نوع الدعوة</th>
+        <th>المكافأة</th>
+      </tr>
+      <tr>
+        <td>مذيع من داخل الشرق الأوسط</td>
+        <td>2$</td>
+      </tr>
+      <tr>
+        <td>مذيع من دول الخليج</td>
+        <td>4$</td>
+      </tr>
+    </table>
+  </div>
+
+  <script>
+    function generateInviteCode() {
+      const likeeId = document.getElementById("likeeId").value.trim();
+      if (likeeId === "") {
+        alert("من فضلك أدخل معرف Likee");
+        return;
+      }
+
+      const inviteCode = "THEEB-" + Math.floor(1000 + Math.random() * 9000);
+      document.getElementById("invite-code").textContent = inviteCode;
+      document.getElementById("code-section").style.display = "block";
+
+      const shareText = "سجل في مؤسسة ذيب باستخدام كود الدعوة " + inviteCode + "، معرفي على لايكي هو: " + likeeId;
+
+      document.getElementById("whatsapp-share").href = "https://wa.me/?text=" + encodeURIComponent(shareText);
+      document.getElementById("messenger-share").href = "https://www.facebook.com/sharer/sharer.php?u=https://theeb.org&quote=" + encodeURIComponent(shareText);
+
+      // Send data to new Google Sheet
+      fetch("https://script.google.com/macros/s/AKfycbyYYjXB-HkMOGpSgWMH6CU0UlKEFMV3izGFOQzXP7SNCeZmkmity-kmtrTfwrY1-XtrHg/exec", {
+        method: "POST",
+        body: JSON.stringify({ likeeId: likeeId, inviteCode: inviteCode }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(res => console.log("تم إرسال البيانات إلى Google Sheet")).catch(err => console.error(err));
+    }
+
+    function copyCode() {
+      const code = document.getElementById("invite-code").textContent;
+      navigator.clipboard.writeText(code);
+      alert("تم نسخ الكود: " + code);
+    }
+  </script>
+</body>
+</html>
